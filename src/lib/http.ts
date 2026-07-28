@@ -1,16 +1,8 @@
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
+import { ApiError } from "@/lib/errors";
 
-export class ApiError extends Error {
-  constructor(
-    public status: number,
-    message: string,
-    public code?: string,
-  ) {
-    super(message);
-    this.name = "ApiError";
-  }
-}
+export { ApiError };
 
 export function jsonOk<T>(data: T, status = 200) {
   return NextResponse.json(data, { status });

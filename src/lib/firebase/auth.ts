@@ -1,5 +1,5 @@
 import { adminAuth, adminDb } from "@/lib/firebase/admin";
-import { ApiError } from "@/lib/http";
+import { ApiError } from "@/lib/errors";
 import type { UserDoc } from "@/types/models";
 
 export type AuthContext = {
