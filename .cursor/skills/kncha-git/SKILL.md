@@ -45,6 +45,17 @@ PR body should include Summary + Test plan checklist.
 - [ ] README updated if API/scripts changed
 - [ ] No secrets in diff
 - [ ] Firebase rules considered if data model changed
+- [ ] Outdated `.cursor/skills/`? Ask user before PR if a `chore(skills)` update is needed
+
+## Skill maintenance commits
+
+When product/API/Firestore/test/UI conventions change, offer a dedicated commit:
+
+```bash
+chore(skills): document <what changed>
+```
+
+Typical files: `kncha-product`, `kncha-api-endpoint/examples.md`, `kncha-firebase/firestore-model.md`, `kncha-testing`, `kncha-ui-play-admin`.
 
 ## If commit hook injects unwanted trailers
 

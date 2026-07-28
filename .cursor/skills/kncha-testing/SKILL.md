@@ -35,7 +35,8 @@ vitest.config.ts  # @ alias → src/
 | Unit | `safety.ts` (+18, audience), `time.ts` (poll close), validators, `buildNewUser` |
 | Unit | `capacityForSport`, join rules via `assertCanJoinUser` |
 | API | register, me, zones, public feed, publish, join-invite |
-| Skip for MVP | Full Firestore integration, E2E Playwright |
+| API | join-requests + vote + decide, leave/kick, complete, reopen-public, keep-group |
+| Skip for MVP | Full Firestore integration, E2E Playwright, admin routes |
 
 ## Unit test rules
 

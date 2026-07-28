@@ -35,6 +35,10 @@ Project skills live in `.cursor/skills/`:
 - `kncha-git` — commits/PRs (no Cursor co-author)
 - `kncha-ui-play-admin` — `/admin` and `/play` UI
 
+## Keep skills in sync
+
+After meaningful changes to product rules, API patterns, Firestore model, tests, or UI conventions, **check whether `.cursor/skills/` is outdated**. If it is, ask the user whether to update the relevant skill(s) in the same PR or a follow-up `chore(skills): ...` commit — do not update skills silently without asking.
+
 ## Git
 
 Only commit when user asks. No `Co-authored-by: Cursor`. Use npm.
