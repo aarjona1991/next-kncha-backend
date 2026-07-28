@@ -1,6 +1,6 @@
 import { randomBytes } from "crypto";
 import { adminDb } from "@/lib/firebase/admin";
-import { ApiError } from "@/lib/http";
+import { ApiError } from "@/lib/errors";
 import { nowIso } from "@/lib/domain/time";
 import type {
   ConversationDoc,

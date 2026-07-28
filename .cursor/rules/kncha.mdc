@@ -1,0 +1,44 @@
+---
+description: KNCHA project conventions — always apply when working in this repo
+alwaysApply: true
+---
+
+# KNCHA Backend
+
+This is **Next.js 16** — read `node_modules/next/dist/docs/` before using APIs you are unsure about. See `AGENTS.md`.
+
+## Repo purpose
+
+Firebase-backed API + admin + mini `/play` client for football roster matching (F5/F7, Uruguay, 18+).
+
+## Code standards
+
+- **Minimize scope** — smallest correct diff; no unrelated refactors
+- **Domain logic** in `src/lib/domain/*`, not only in route handlers
+- **Validators** in `src/lib/validators/common.ts` (Zod)
+- **Errors**: `ApiError` from `src/lib/errors.ts`; HTTP helpers in `src/lib/http.ts`
+- **Types/constants** in `src/types/models.ts`
+- **Language**: code/comments in English; user-facing strings may be Spanish
+
+## Product rules (server-enforced)
+
++18 only; audience on events; invite=direct join; public=join request + poll; max 2 active events per organizer; poll closes 3h before start.
+
+## Skills (read when relevant)
+
+Project skills live in `.cursor/skills/`:
+
+- `kncha-product` — business rules
+- `kncha-api-endpoint` — new API routes
+- `kncha-firebase` — Auth, Firestore, seeds
+- `kncha-testing` — Vitest
+- `kncha-git` — commits/PRs (no Cursor co-author)
+- `kncha-ui-play-admin` — `/admin` and `/play` UI
+
+## Keep skills in sync
+
+After meaningful changes to product rules, API patterns, Firestore model, tests, or UI conventions, **check whether `.cursor/skills/` is outdated**. If it is, ask the user whether to update the relevant skill(s) in the same PR or a follow-up `chore(skills): ...` commit — do not update skills silently without asking.
+
+## Git
+
+Only commit when user asks. No `Co-authored-by: Cursor`. Use npm.

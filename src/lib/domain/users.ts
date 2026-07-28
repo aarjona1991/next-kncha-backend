@@ -3,7 +3,7 @@ import type { UserDoc } from "@/types/models";
 import { ROOKIE_BADGE, ROOKIE_SCORE } from "@/types/models";
 import { assertAdult } from "@/lib/domain/safety";
 import { nowIso } from "@/lib/domain/time";
-import { ApiError } from "@/lib/http";
+import { ApiError } from "@/lib/errors";
 
 export async function getUserOrThrow(uid: string) {
   const snap = await adminDb().collection("users").doc(uid).get();

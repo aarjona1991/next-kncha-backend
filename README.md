@@ -65,7 +65,18 @@ Rutas bajo `/play` (UI simple para probar el MVP):
 Scripts útiles:
 
 ```bash
-yarn seed:zones
-yarn seed:demo
-yarn smoke:flow
+npm run seed:zones
+npm run seed:demo
+npm run smoke:flow
+npm test
+npm run test:coverage
 ```
+
+## Testing
+
+Vitest covers:
+
+- **Unit:** +18/audience safety, poll close timing (3h), validators, HTTP helpers, capacity, profile builders, `syncPollOpen` / organizer / event-limit
+- **API (mocked Firebase):** register, `/me`, zones/feed, publish, invite join + audience mismatch, join-requests + vote + decide, leave/kick + roster-hole notifications, complete/reopen-public, keep-group majority persist/archive
+
+Use `npm run smoke:flow` for an end-to-end check against live Firebase (needs `.env.local`).

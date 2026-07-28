@@ -1,5 +1,5 @@
 import type { Audience, Sex } from "@/types/models";
-import { ApiError } from "@/lib/http";
+import { ApiError } from "@/lib/errors";
 
 export function ageFromBirthDate(birthDate: string, now = new Date()): number {
   const [y, m, d] = birthDate.split("-").map(Number);

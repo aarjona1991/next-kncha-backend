@@ -1,5 +1,5 @@
 import { adminDb } from "@/lib/firebase/admin";
-import { ApiError } from "@/lib/http";
+import { ApiError } from "@/lib/errors";
 import { assertAudienceAllows, assertAdult } from "@/lib/domain/safety";
 import { shouldClosePoll, nowIso } from "@/lib/domain/time";
 import {
