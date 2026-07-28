@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // MVP: all mutations go through the Next.js Admin SDK API.
+    // Clients must not write directly.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
