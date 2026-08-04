@@ -38,7 +38,7 @@ All routes under `/api/v1` (except register) require `Authorization: Bearer <Fir
 | Zones | `GET /zones` |
 | Events | create, public feed, publish, postpone, complete, cancel, invite join (`/:id/join-invite` or `/join-by-invite` with code only), join-requests + votes + decide, leave, kick, reopen-public, keep-group vote |
 | Chat | `GET/POST /conversations/:id/messages` |
-| Notifications | `GET /notifications` |
+| Notifications | `GET /notifications`, `POST /notifications/:id/read`, `POST /notifications/read-all` |
 | Reports | `POST /reports` |
 | Admin | zones CRUD, users ban, events list/cancel, reports, stats |
 

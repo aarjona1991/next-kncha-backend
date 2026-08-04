@@ -66,6 +66,44 @@ export async function createNotification(params: {
   await adminDb().collection("notifications").add(doc);
 }
 
+export async function markNotificationRead(
+  uid: string,
+  notificationId: string,
+): Promise<void> {
+  const ref = adminDb().collection("notifications").doc(notificationId);
+  const snap = await ref.get();
+  if (!snap.exists) {
+    throw new ApiError(404, "Notification not found", "NOT_FOUND");
+  }
+  const data = snap.data() as NotificationDoc;
+  if (data.userId !== uid) {
+    throw new ApiError(403, "Not your notification", "FORBIDDEN");
+  }
+  if (data.read) return;
+  await ref.update({ read: true });
+}
+
+/** Marks up to 500 unread notifications for the user. */
+export async function markAllNotificationsRead(
+  uid: string,
+): Promise<{ updated: number }> {
+  const snap = await adminDb()
+    .collection("notifications")
+    .where("userId", "==", uid)
+    .where("read", "==", false)
+    .limit(500)
+    .get();
+
+  if (snap.empty) return { updated: 0 };
+
+  const batch = adminDb().batch();
+  for (const doc of snap.docs) {
+    batch.update(doc.ref, { read: true });
+  }
+  await batch.commit();
+  return { updated: snap.size };
+}
+
 export async function assertConversationMember(
   conversationId: string,
   uid: string,
