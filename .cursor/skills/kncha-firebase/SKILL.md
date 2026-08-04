@@ -54,11 +54,16 @@ Copy from `.env.example`. Enable Auth (email/password) + Firestore in console.
 
 After `seed:admin`, user must **sign out/in** to refresh token claims.
 
-## Firestore rules
+## Firestore rules & indexes
 
-Deploy: `firebase deploy --only firestore:rules`
+```bash
+firebase deploy --only firestore:rules
+firebase deploy --only firestore:indexes
+```
 
 MVP rule: deny all client read/write. Realtime chat read can be added later with read-only rules.
+
+Indexes live in `firestore.indexes.json` (wired from `firebase.json`). Needed for `GET /me/events` (members collection-group) and notification list/unread queries.
 
 ## Model reference
 
@@ -70,7 +75,7 @@ See [firestore-model.md](firestore-model.md) for collections and fields.
 2. Implement domain functions in `src/lib/domain/`
 3. Expose via API route — do not expose raw Firestore to clients
 4. Add seed data if needed for dev
-5. Keep composite indexes minimal; prefer filter-in-memory for admin lists in MVP
+5. Prefer filter-in-memory for admin lists; add composite indexes only for player query paths (document in `firestore.indexes.json`)
 
 ## Common pitfalls
 
