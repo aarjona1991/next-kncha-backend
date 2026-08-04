@@ -33,7 +33,7 @@ All routes under `/api/v1` (except register) require `Authorization: Bearer <Fir
 
 | Area | Endpoints |
 |------|-----------|
-| Auth/profile | `POST /auth/register`, `GET/PATCH /me`, `POST /me/avatar` |
+| Auth/profile | `POST /auth/register`, `GET/PATCH /me`, `POST /me/avatar`, `GET /me/events` |
 | Users | `GET /users/:uid` (sports card) |
 | Zones | `GET /zones` |
 | Events | create, public feed, publish, postpone, complete, cancel, invite join, join-requests + votes + decide, leave, kick, reopen-public, keep-group vote |

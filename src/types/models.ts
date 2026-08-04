@@ -86,6 +86,8 @@ export interface EventDoc {
 }
 
 export interface MemberDoc {
+  /** Denormalized for collection-group "my events" queries */
+  userId: string;
   role: MemberRole;
   joinedVia: JoinedVia;
   status: MemberStatus;
