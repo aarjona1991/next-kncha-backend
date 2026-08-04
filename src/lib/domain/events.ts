@@ -47,6 +47,21 @@ export async function getEventOrThrow(eventId: string) {
   return { id: snap.id, data: snap.data() as EventDoc };
 }
 
+/** Resolve event by invite code (codes are stored uppercase). */
+export async function findEventByInviteCode(inviteCode: string) {
+  const normalized = inviteCode.trim().toUpperCase();
+  const snap = await adminDb()
+    .collection("events")
+    .where("inviteCode", "==", normalized)
+    .limit(1)
+    .get();
+  if (snap.empty) {
+    throw new ApiError(404, "Invite not found", "INVALID_INVITE");
+  }
+  const doc = snap.docs[0]!;
+  return { id: doc.id, data: doc.data() as EventDoc };
+}
+
 export async function syncPollOpen(eventId: string, event: EventDoc) {
   if (!event.pollOpen) return event;
   if (shouldClosePoll(event.approxDate, event.startsAt)) {
