@@ -47,6 +47,21 @@ export async function getEventOrThrow(eventId: string) {
   return { id: snap.id, data: snap.data() as EventDoc };
 }
 
+/** Resolve event by invite code (codes are stored uppercase). */
+export async function findEventByInviteCode(inviteCode: string) {
+  const normalized = inviteCode.trim().toUpperCase();
+  const snap = await adminDb()
+    .collection("events")
+    .where("inviteCode", "==", normalized)
+    .limit(1)
+    .get();
+  if (snap.empty) {
+    throw new ApiError(404, "Invite not found", "INVALID_INVITE");
+  }
+  const doc = snap.docs[0]!;
+  return { id: doc.id, data: doc.data() as EventDoc };
+}
+
 export async function syncPollOpen(eventId: string, event: EventDoc) {
   if (!event.pollOpen) return event;
   if (shouldClosePoll(event.approxDate, event.startsAt)) {
@@ -83,6 +98,79 @@ export async function assertOrganizer(eventId: string, uid: string) {
 export function assertCanJoinUser(user: UserDoc, audience: Audience) {
   assertAdult(user.birthDate);
   assertAudienceAllows(audience, user.sex);
+}
+
+export type UserEventSummary = {
+  id: string;
+  sport: Sport;
+  audience: Audience;
+  zoneId: string;
+  approxDate: string;
+  startsAt: string | null;
+  venueText: string | null;
+  capacity: number;
+  filledCount: number;
+  openSlots: number;
+  status: EventDoc["status"];
+  visibility: EventDoc["visibility"];
+  pollOpen: boolean;
+  role: MemberDoc["role"];
+  joinedVia: MemberDoc["joinedVia"];
+  joinedAt: string;
+};
+
+export async function listUserEvents(
+  uid: string,
+  options?: { activeOnly?: boolean },
+): Promise<UserEventSummary[]> {
+  const snap = await adminDb()
+    .collectionGroup("members")
+    .where("userId", "==", uid)
+    .where("status", "==", "active")
+    .get();
+
+  const summaries: UserEventSummary[] = [];
+
+  await Promise.all(
+    snap.docs.map(async (memberSnap) => {
+      const member = memberSnap.data() as MemberDoc;
+      const eventRef = memberSnap.ref.parent.parent;
+      if (!eventRef) return;
+
+      const eventSnap = await eventRef.get();
+      if (!eventSnap.exists) return;
+
+      const event = eventSnap.data() as EventDoc;
+      if (
+        options?.activeOnly &&
+        !ACTIVE_EVENT_STATUSES.includes(event.status)
+      ) {
+        return;
+      }
+
+      summaries.push({
+        id: eventSnap.id,
+        sport: event.sport,
+        audience: event.audience,
+        zoneId: event.zoneId,
+        approxDate: event.approxDate,
+        startsAt: event.startsAt,
+        venueText: event.venueText,
+        capacity: event.capacity,
+        filledCount: event.filledCount,
+        openSlots: event.capacity - event.filledCount,
+        status: event.status,
+        visibility: event.visibility,
+        pollOpen: event.pollOpen,
+        role: member.role,
+        joinedVia: member.joinedVia,
+        joinedAt: member.joinedAt,
+      });
+    }),
+  );
+
+  summaries.sort((a, b) => a.approxDate.localeCompare(b.approxDate));
+  return summaries;
 }
 
 export async function addMember(params: {
@@ -136,6 +224,7 @@ export async function addMember(params: {
     }
 
     const member: MemberDoc = {
+      userId: params.uid,
       role: params.role,
       joinedVia: params.joinedVia,
       status: "active",

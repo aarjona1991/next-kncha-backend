@@ -93,4 +93,4 @@ Before roster joins, call domain helpers that enforce:
 
 ## Examples
 
-See [examples.md](examples.md) for register, publish, and join-invite patterns.
+See [examples.md](examples.md) for register, publish, me/events, join-invite / join-by-invite, and notification read patterns.

@@ -188,6 +188,7 @@ async function main() {
   });
 
   await eventRef.collection("members").doc(organizer.uid).set({
+    userId: organizer.uid,
     role: "organizer",
     joinedVia: "organizer",
     status: "active",
@@ -196,6 +197,7 @@ async function main() {
   });
 
   await eventRef.collection("members").doc(playerUids[0]!).set({
+    userId: playerUids[0]!,
     role: "player",
     joinedVia: "invite",
     status: "active",

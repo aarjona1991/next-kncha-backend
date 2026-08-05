@@ -58,6 +58,7 @@ export async function POST(request: Request) {
     };
 
     const member: MemberDoc = {
+      userId: ctx.uid,
       role: "organizer",
       joinedVia: "organizer",
       status: "active",

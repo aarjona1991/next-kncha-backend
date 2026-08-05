@@ -14,7 +14,9 @@ organizerId, sport, capacity, filledCount, visibility, audience, zoneId, approxD
 
 ### events/{eventId}/members/{uid}
 
-role, joinedVia, status, joinedAt, displayName
+userId (same as doc id — required for collection-group "my events"), role, joinedVia, status, joinedAt, displayName
+
+Collection-group query: `members` where `userId == uid` and `status == "active"` (see `firestore.indexes.json`).
 
 ### events/{eventId}/joinRequests/{requestId}
 
@@ -43,6 +45,8 @@ conversationId, memberIds[], createdFromEventId, createdAt
 ## notifications/{id}
 
 userId, type, payload, read, createdAt
+
+Indexes: `userId` + `createdAt` DESC (list); `userId` + `read` (mark-all unread).
 
 ## reports/{id}
 
