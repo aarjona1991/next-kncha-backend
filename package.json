@@ -13,6 +13,7 @@
     "seed:admin": "tsx scripts/seed-admin.ts",
     "seed:zones": "tsx scripts/seed-zones.ts",
     "seed:demo": "tsx scripts/seed-demo-event.ts",
+    "backfill:members": "tsx scripts/backfill-member-userId.ts",
     "smoke:flow": "tsx scripts/smoke-core-flow.ts"
   },
   "dependencies": {
